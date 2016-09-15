@@ -41,3 +41,6 @@ jspm_packages
 
 # Docker-compose for local
 docker-compose.override.yml
+
+# Cassettes for tests
+test/cassettes
