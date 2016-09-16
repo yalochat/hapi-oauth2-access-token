@@ -1,7 +1,7 @@
 {
   "name": "hapi-oauth2-access-token",
-  "version": "1.0.0",
-  "description": "Plugin of Hapijs used to integrate OAuth2 Server ",
+  "version": "1.0.1",
+  "description": "Plugin of Hapijs used to integrate OAuth2 Server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,8 +12,11 @@
     "oauth",
     "clients"
   ],
-  "author": "Yoel Monzon <yoelfme@hotmail.com>",
-  "license": "MIT",
+  "author": "Yalo",
+  "contributors": [
+    "Yoel Monzon <yoel@yalochat.com>"
+  ],
+  "license": "BSD-3-Clause",
   "dependencies": {
     "async": "^2.0.1",
     "boom": "^4.0.0",
