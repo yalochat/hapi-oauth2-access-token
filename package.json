@@ -2,7 +2,7 @@
   "name": "hapi-oauth2-access-token",
   "version": "1.0.3",
   "description": "Plugin of Hapijs used to integrate OAuth2 Server",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "gulp test"
   },
