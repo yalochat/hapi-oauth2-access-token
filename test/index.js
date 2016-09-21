@@ -11,7 +11,6 @@ const describe = lab.describe
 const it = lab.it
 const expect = Code.expect
 
-const internals = {}
 let server = null
 
 lab.beforeEach(done => {
@@ -25,16 +24,17 @@ const invalidAccessToken = process.env.INVALID_ACCESS_TOKEN
 const oauthServerHost = process.env.OAUTH_HOST
 const oauthClientId = process.env.OAUTH_CLIENT_ID
 const oauthClientSecret = process.env.OAUTH_CLIENT_SECRET
+const applicationId = process.env.APPLICATION_ID
 
 describe('hapi-oauth2-access-token', () => {
-
   it('register well, :)', done => {
     server.register({
       register: Plugin,
       options: {
         host: 'host',
         clientId: 'clientId',
-        clientSecret: 'clientSecret'
+        clientSecret: 'clientSecret',
+        applicationId: 'applicationId'
       }
     }, err => {
       expect(err).to.not.exist()
@@ -44,10 +44,8 @@ describe('hapi-oauth2-access-token', () => {
   })
 
   it('register bad :(', done => {
-
     const register = Plugin.register
     Plugin.register = (server, options, next) => {
-
       return next(new Error('Fail Registration'))
     }
 
@@ -56,7 +54,6 @@ describe('hapi-oauth2-access-token', () => {
     }
 
     server.register(Plugin, err => {
-
       Plugin.register = register
       expect(err).to.exist()
       server.stop()
@@ -70,7 +67,8 @@ describe('hapi-oauth2-access-token', () => {
       options: {
         host: oauthServerHost,
         clientId: oauthClientId,
-        clientSecret: oauthClientSecret
+        clientSecret: oauthClientSecret,
+        applicationId: applicationId
       }
     }, err => {
       expect(err).to.not.exist()
@@ -80,14 +78,14 @@ describe('hapi-oauth2-access-token', () => {
         path: '/',
         config: {
           auth: 'bearer',
-          handler:  (request, reply) => {
+          handler: (request, reply) => {
             reply('private resource')
           }
         }
       })
 
       Vcr.insert('get-resource-valid-token')
-      server.inject({ method: 'GET', url: '/',  headers: {authorization: `Bearer ${validAccessToken}`}}, res => {
+      server.inject({ method: 'GET', url: '/', headers: {authorization: `Bearer ${validAccessToken}`} }, res => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal('private resource')
         server.stop()
@@ -99,13 +97,14 @@ describe('hapi-oauth2-access-token', () => {
     })
   })
 
-  it('get resource with invalid token, focus', done => {
+  it('get resource with invalid token', done => {
     server.register({
       register: Plugin,
       options: {
         host: oauthServerHost,
         clientId: oauthClientId,
-        clientSecret: oauthClientSecret
+        clientSecret: oauthClientSecret,
+        applicationId: applicationId
       }
     }, err => {
       expect(err).to.not.exist()
@@ -115,14 +114,14 @@ describe('hapi-oauth2-access-token', () => {
         path: '/',
         config: {
           auth: 'bearer',
-          handler:  (request, reply) => {
+          handler: (request, reply) => {
             reply('private resource')
           }
         }
       })
 
       Vcr.insert('get-resource-invalid-token')
-      server.inject({ method: 'GET', url: '/',  headers: {authorization: `Bearer ${invalidAccessToken}`}}, res => {
+      server.inject({ method: 'GET', url: '/', headers: {authorization: `Bearer ${invalidAccessToken}`} }, res => {
         expect(res.statusCode).to.equal(401)
         expect(res.result.message).to.equal('Invalid access token')
         server.stop()
