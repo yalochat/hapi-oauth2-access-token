@@ -24,7 +24,6 @@ const invalidAccessToken = process.env.INVALID_ACCESS_TOKEN
 const oauthServerHost = process.env.OAUTH_HOST
 const oauthClientId = process.env.OAUTH_CLIENT_ID
 const oauthClientSecret = process.env.OAUTH_CLIENT_SECRET
-const applicationId = process.env.APPLICATION_ID
 
 describe('hapi-oauth2-access-token', () => {
   it('register well, :)', done => {
@@ -33,8 +32,7 @@ describe('hapi-oauth2-access-token', () => {
       options: {
         host: 'host',
         clientId: 'clientId',
-        clientSecret: 'clientSecret',
-        applicationId: 'applicationId'
+        clientSecret: 'clientSecret'
       }
     }, err => {
       expect(err).to.not.exist()
@@ -67,8 +65,7 @@ describe('hapi-oauth2-access-token', () => {
       options: {
         host: oauthServerHost,
         clientId: oauthClientId,
-        clientSecret: oauthClientSecret,
-        applicationId: applicationId
+        clientSecret: oauthClientSecret
       }
     }, err => {
       expect(err).to.not.exist()
@@ -103,8 +100,7 @@ describe('hapi-oauth2-access-token', () => {
       options: {
         host: oauthServerHost,
         clientId: oauthClientId,
-        clientSecret: oauthClientSecret,
-        applicationId: applicationId
+        clientSecret: oauthClientSecret
       }
     }, err => {
       expect(err).to.not.exist()
